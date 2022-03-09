@@ -1,0 +1,36 @@
+{
+  "name": "anton-am/do-spaces-api",
+  "description": "A simple API wrapper for Selectel object storage",
+  "type": "library",
+  "require": {
+    "php": ">=7.3.0",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "aws/aws-sdk-php": "^3.108",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "require-dev": {
+    "codeception/codeception": "^4.1.1",
+    "codeception/module-filesystem": "^1.0.2",
+    "codeception/module-asserts": "^1.1.1",
+    "vlucas/phpdotenv": "3.4.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Anton Am",
+      "email": "antonamru@gmail.com",
+      "homepage": "https://github.com/Anton-Am",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/Anton-Am/selectel-cloud-api",
+    "issues": "https://github.com/Anton-Am/selectel-cloud-api/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "AntonAm\\Selectel\\Cloud\\": "src/"
+    }
+  }
+}

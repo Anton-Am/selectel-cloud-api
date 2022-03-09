@@ -1,0 +1,34 @@
+namespace: Tests
+
+suites:
+  unit:
+    path: .
+    actor: UnitTester
+    modules:
+      enabled:
+        - \Tests\Helper\SelectelCloud
+        - Asserts
+      config:
+        \Tests\Helper\SelectelCloud:
+          name: "%SELECTEL_NAME%"
+          key: "%SELECTEL_KEY%"
+          secret: "%SELECTEL_SECRET%"
+
+settings:
+  shuffle: false
+  lint: true
+
+paths:
+  tests: tests
+  output: tests/_output
+  support: tests/_support
+  data: tests
+
+coverage:
+  enabled: true
+  whitelist:
+    include:
+      - src/*
+
+params:
+  - .env

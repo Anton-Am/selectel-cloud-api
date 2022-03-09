@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  fpm:
+    working_dir: /app
+    hostname: php-fpm
+    image: ${FPM_IMAGE}
+    restart: unless-stopped
+    volumes:
+      - ../:/app
+      - ./php/log/:/var/log/php7-fpm
+      - ./php/app-config.ini:/usr/local/etc/php/conf.d/app-config.ini
+    environment:
+      - XDEBUG_MODE=${XDEBUG_MODE}
+      - XDEBUG_SESSION=${XDEBUG_SESSION}
+      - XDEBUG_CONFIG=${XDEBUG_CONFIG}
+      - TZ=${TZ}
