@@ -1,5 +1,5 @@
 {
-  "name": "anton-am/do-spaces-api",
+  "name": "anton-am/selectel-cloud-api",
   "description": "A simple API wrapper for Selectel object storage",
   "type": "library",
   "require": {
