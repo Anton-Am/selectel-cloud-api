@@ -6,6 +6,7 @@
     "php": ">=7.3.0",
     "ext-json": "*",
     "ext-simplexml": "*",
+    "ext-fileinfo": "*",
     "aws/aws-sdk-php": "^3.108",
     "guzzlehttp/guzzle": "^6.3"
   },

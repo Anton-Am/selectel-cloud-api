@@ -17,6 +17,9 @@ class File extends BucketObject
     {
         if (@file_exists($data)) {
             $this->file = file_get_contents($data);
+            if (!empty($mime = (string)mb_strtolower(pathinfo($data)['extension']) === 'svg' ? 'image/svg+xml' : mime_content_type($data))) {
+                $this->mimeType = $mime;
+            }
         } else {
             $this->file = $data;
         }
@@ -27,7 +30,6 @@ class File extends BucketObject
     public function setMimeType($type): self
     {
         $this->mimeType = $type;
-
         return $this;
     }
 
@@ -48,6 +50,8 @@ class File extends BucketObject
                 'Bucket' => $this->manager->getBucket(),
                 'Key'    => $this->object
             ]);
+
+        $this->mimeType = null;
 
         return $result->toArray();
     }
