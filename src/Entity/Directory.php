@@ -80,14 +80,17 @@ class Directory extends BucketObject
 
         if (count($files) > 0) {
             foreach ($files as $file) {
-                $filePath = $path . '/' . $file['Key'];
-                $filePathDir = dirname($filePath);
-                if (!mkdir($filePathDir, 0777, true) && !is_dir($filePathDir)) {
-                    throw new SelectelCloudException(sprintf('Directory "%s" was not created', $filePath));
-                }
+                if ((int)$file['Size'] > 0) {
+                    $filePath = $path . '/' . $file['Key'];
+                    $filePathDir = dirname($filePath);
 
-                if (!$this->manager->file($file['Key'])->download($filePath)) {
-                    $result = false;
+                    if (!is_dir($filePathDir) && !mkdir($filePathDir, 0777, true) && !is_dir($filePathDir)) {
+                        throw new SelectelCloudException(sprintf('Directory "%s" was not created', $filePath));
+                    }
+
+                    if (!$this->manager->file($file['Key'])->download($filePath)) {
+                        $result = false;
+                    }
                 }
             }
         }

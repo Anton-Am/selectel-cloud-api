@@ -35,11 +35,8 @@ class BucketCest
      */
     public function downloaded(UnitTester $I): void
     {
-        // Upload file
-        $file = $I->getComposerFile();
-
-        $I->getClient()->file($file)->setFileData($file)->create();
-        $I->assertTrue($I->getClient()->file($file)->exist());
+        $I->uploadTestData();
+        $file = $I->getTestFile();
 
         // Upload dir
         $directory = realpath(__DIR__ . '/_output');

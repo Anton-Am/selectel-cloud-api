@@ -4,6 +4,7 @@ namespace AntonAm\Selectel\Cloud\Entity;
 
 use AntonAm\Selectel\Cloud\EntityInterface;
 use AntonAm\Selectel\Cloud\Manager;
+use AntonAm\Selectel\Cloud\SelectelCloudException;
 
 /**
  * Class Bucket
@@ -46,11 +47,35 @@ class Bucket implements EntityInterface
         return $buckets;
     }
 
-    public function download($path): void
+    public function download($path): bool
     {
-        $this->manager
+        // Method doesn't work in case of handmade directories
+        /*$this->manager
             ->getClient()
-            ->downloadBucket($path, $this->manager->getBucket());
+            ->downloadBucket($path, $this->manager->getBucket());*/
+
+        $files = $this->files();
+
+        $result = true;
+
+        if (count($files) > 0) {
+            foreach ($files as $file) {
+                if ((int)$file['Size'] > 0) {
+                    $filePath = $path . '/' . $file['Key'];
+                    $filePathDir = dirname($filePath);
+
+                    if (!is_dir($filePathDir) && !mkdir($filePathDir, 0777, true) && !is_dir($filePathDir)) {
+                        throw new SelectelCloudException(sprintf('Directory "%s" was not created', $filePath));
+                    }
+
+                    if (!$this->manager->file($file['Key'])->download($filePath)) {
+                        $result = false;
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function delete(): bool

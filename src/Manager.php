@@ -28,7 +28,7 @@ class Manager
         $this->setClient($accessKey, $secretKey, $bucket, $region, $host);
     }
 
-    public function setClient($accessKey, $secretKey, $bucket, $region = 'ru-1', $host = 'https://s3.storage.selcloud.ru'): void
+    public function setClient($accessKey, $secretKey, $bucket, $region = 'ru-1', $host = 'https://s3.storage.selcloud.ru'): self
     {
         if (!empty($accessKey)) {
             $this->accessKey = $accessKey;
@@ -50,6 +50,8 @@ class Manager
         ]);
 
         $this->bucketName = $bucket;
+
+        return $this;
     }
 
 
