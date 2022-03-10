@@ -83,25 +83,6 @@ abstract class BucketObject implements EntityInterface
     }
 
 
-    public function deleteMatching(): bool
-    {
-        $this->manager
-            ->getClient()
-            ->deleteMatchingObjects(
-                $this->manager->getBucket(),
-                $this->object
-            );
-
-        $this->manager
-            ->getClient()
-            ->waitUntil('ObjectNotExists', [
-                'Bucket' => $this->manager->getBucket(),
-                'Key'    => $this->object
-            ]);
-
-        return true;
-    }
-
     public function exist(): bool
     {
         try {

@@ -58,18 +58,48 @@ class Directory extends BucketObject
         return $result;
     }
 
+    private function getFileList($dir): array
+    {
+        $result = [];
+        foreach (scandir($dir) as $filename) {
+            if (in_array($filename, ['.', '..'], false)) {
+                continue;
+            }
+
+            $filePath = $dir . '/' . $filename;
+            if (is_dir($filePath)) {
+                foreach ($this->getFileList($filePath) as $childFilename) {
+                    $result[] = $filename . '/' . $childFilename;
+                }
+            } else {
+                $result[] = $filename;
+            }
+        }
+        return $result;
+    }
+
     public function upload($path = null): bool
     {
-        if (is_dir('/' . $this->object)) {
+        $result = true;
+        $directory = '/' . $this->object;
+        if (is_dir($directory)) {
+            $files = $this->getFileList($directory);
 
-            $this->manager
+            foreach ($files as $file) {
+                if (!$this->manager
+                    ->file($path . '/' . $file)
+                    ->setFileData($directory . '/' . $file)
+                    ->create()) {
+                    $result = false;
+                }
+            }
+            //@ToDo: Detect strange save behaviour
+            /*$this->manager
                 ->getClient()
-                ->uploadDirectoryAsync('/' . $this->object, $this->manager->getBucket(), $path);
-
-            return true;
+                ->uploadDirectoryAsync('/' . $this->object, $this->manager->getBucket(), $path);*/
         }
 
-        return false;
+        return $result;
     }
 
     public function download($path = null): bool
